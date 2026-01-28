@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\HomeContent;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
@@ -41,10 +42,17 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('home', function ($view) {
+            $homeContentData = HomeContent::defaults();
+
+            if (Schema::hasTable('home_contents')) {
+                $homeContentData = HomeContent::viewData();
+            }
+
             if (! Schema::hasTable('categories') || ! Schema::hasTable('products')) {
                 $view->with([
                     'homeCategories' => collect(),
                     'featuredProducts' => collect(),
+                    'homeContent' => $homeContentData,
                 ]);
                 return;
             }
@@ -68,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'homeCategories' => $homeCategories,
                 'featuredProducts' => $featuredProducts,
+                'homeContent' => $homeContentData,
             ]);
         });
     }

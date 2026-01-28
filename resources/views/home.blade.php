@@ -1,6 +1,38 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@section('title', 'Watiri Designs — Bridal Accessories in Kenya')
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+
+    $home = $homeContent ?? \App\Models\HomeContent::defaults();
+
+    $heroImage = asset('images/hero-bridal.svg');
+    if (! empty($home['hero_image_path'] ?? null) && Storage::disk('public')->exists($home['hero_image_path'])) {
+        $heroImage = asset('storage/'.$home['hero_image_path']);
+    }
+
+    $linkResolver = function (?string $value, string $fallback) {
+        if (blank($value)) {
+            return $fallback;
+        }
+
+        if (Str::startsWith($value, '#')) {
+            return $value;
+        }
+
+        if (Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        return url($value);
+    };
+
+    $heroPrimaryLink = $linkResolver($home['hero_primary_link'] ?? null, route('shop.index'));
+    $heroSecondaryLink = $linkResolver($home['hero_secondary_link'] ?? null, '#consult');
+    $deliveryPoints = collect($home['delivery_points'] ?? [])->filter()->take(3);
+@endphp
+
+@section('title', $home['seo_title'] ?? 'Watiri Designs - Bridal Accessories in Kenya')
 
 @section('content')
     <section class="relative overflow-hidden rounded-2xl bg-white watiri-ring">
@@ -12,41 +44,39 @@
             <div class="space-y-6">
                 <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-medium tracking-wide text-zinc-700 watiri-ring">
                     <span class="inline-flex h-2 w-2 rounded-full bg-brand-500"></span>
-                    Bridal Accessories in Kenya
+                    {{ $home['hero_badge'] ?? 'Bridal Accessories in Kenya' }}
                 </div>
 
                 <h1 class="text-4xl font-semibold leading-tight tracking-tight text-zinc-900 md:text-5xl font-serif">
-                    Wedding day details,
-                    <span class="text-brand-700">perfectly finished</span>.
+                    {{ $home['hero_heading'] ?? 'Wedding day details,' }}
+                    <span class="text-brand-700">{{ $home['hero_heading_highlight'] ?? 'perfectly finished.' }}</span>
                 </h1>
 
                 <p class="max-w-prose text-base leading-relaxed text-zinc-700">
-                    From statement hair pieces and timeless veils to jewellery that photographs beautifully—Watiri Designs helps you
-                    complete your bridal look with confidence.
+                    {{ $home['hero_description'] ?? 'From statement hair pieces and timeless veils to jewellery that photographs beautifully - Watiri Designs helps you complete your bridal look with confidence.' }}
                 </p>
 
                 <div class="flex flex-wrap items-center gap-3">
-                    <a href="{{ route('shop.index') }}" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
-                        Shop collections
+                    <a href="{{ $heroPrimaryLink }}" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
+                        {{ $home['hero_primary_label'] ?? 'Shop collections' }}
                     </a>
-                    <a href="#consult" class="inline-flex items-center rounded-md bg-white px-5 py-3 text-sm font-medium text-zinc-900 watiri-ring hover:bg-zinc-50">
-                        Book a styling consult
+                    <a href="{{ $heroSecondaryLink }}" class="inline-flex items-center rounded-md bg-white px-5 py-3 text-sm font-medium text-zinc-900 watiri-ring hover:bg-zinc-50">
+                        {{ $home['hero_secondary_label'] ?? 'Book a styling consult' }}
                     </a>
                 </div>
 
                 <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600" id="delivery">
-                    <div class="inline-flex items-center gap-2">
-                        <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
-                        Nairobi pickup available
-                    </div>
-                    <div class="inline-flex items-center gap-2">
-                        <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
-                        Nationwide delivery
-                    </div>
-                    <div class="inline-flex items-center gap-2">
-                        <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
-                        7-day returns
-                    </div>
+                    @forelse ($deliveryPoints as $point)
+                        <div class="inline-flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                            {{ $point }}
+                        </div>
+                    @empty
+                        <div class="inline-flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+                            {{ __('Delivery information coming soon.') }}
+                        </div>
+                    @endforelse
                 </div>
             </div>
 
@@ -54,7 +84,7 @@
                 <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-brand-200/50 via-white to-champagne-200/60 blur-xl"></div>
                 <div class="relative overflow-hidden rounded-2xl bg-white watiri-ring">
                     <img
-                        src="{{ asset('images/hero-bridal.svg') }}"
+                        src="{{ $heroImage }}"
                         alt="Watiri Designs bridal accessories"
                         class="h-[360px] w-full object-cover md:h-[460px]"
                     />
@@ -80,8 +110,8 @@
     <section class="mt-12" id="collections">
         <div class="flex items-end justify-between gap-6">
             <div class="space-y-2">
-                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">Shop by category</h2>
-                <p class="text-sm text-zinc-600">Curated pieces that complement your dress, venue, and hairstyle.</p>
+                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">{{ $home['categories_title'] ?? 'Shop by category' }}</h2>
+                <p class="text-sm text-zinc-600">{{ $home['categories_subtitle'] ?? 'Curated pieces that complement your dress, venue, and hairstyle.' }}</p>
             </div>
             <a class="hidden text-sm font-medium text-zinc-900 underline-offset-4 hover:underline md:inline" href="{{ route('shop.index') }}">View shop</a>
         </div>
@@ -178,8 +208,8 @@
     <section class="mt-12" id="bestsellers">
         <div class="flex items-end justify-between gap-6">
             <div class="space-y-2">
-                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">Bestsellers</h2>
-                <p class="text-sm text-zinc-600">Popular picks for brides, bridesmaids, and traditional ceremonies.</p>
+                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">{{ $home['bestsellers_title'] ?? 'Bestsellers' }}</h2>
+                <p class="text-sm text-zinc-600">{{ $home['bestsellers_subtitle'] ?? 'Popular picks for brides, bridesmaids, and traditional ceremonies.' }}</p>
             </div>
             <a class="hidden text-sm font-medium text-zinc-900 underline-offset-4 hover:underline md:inline" href="#contact">Need help choosing?</a>
         </div>
@@ -218,18 +248,30 @@
     <section class="mt-12 rounded-2xl bg-white p-8 watiri-ring" id="consult">
         <div class="grid gap-8 md:grid-cols-3 md:items-center">
             <div class="md:col-span-2">
-                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">Not sure what suits your dress?</h2>
+                <h2 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">{{ $home['consult_title'] ?? 'Not sure what suits your dress?' }}</h2>
                 <p class="mt-2 text-sm leading-relaxed text-zinc-600">
-                    Send us your dress style, venue, and hair inspo—we’ll recommend accessories that match your look and budget.
+                    {{ $home['consult_body'] ?? 'Send us your dress style, venue, and hair inspo - we will recommend accessories that match your look and budget.' }}
                 </p>
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
-                <a href="#contact" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
-                    Talk to us
-                </a>
-                <a href="https://wa.me/254700000000" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
-                    WhatsApp
-                </a>
+                @if (! empty($home['consult_primary_label']))
+                    <a href="{{ $linkResolver($home['consult_primary_link'] ?? null, '#contact') }}" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
+                        {{ $home['consult_primary_label'] }}
+                    </a>
+                @endif
+                @if (! empty($home['consult_secondary_label']))
+                    <a href="{{ $linkResolver($home['consult_secondary_link'] ?? null, 'https://wa.me/254700000000') }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                        {{ $home['consult_secondary_label'] }}
+                    </a>
+                @endif
+                @if (empty($home['consult_primary_label']) && empty($home['consult_secondary_label']))
+                    <a href="#contact" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
+                        {{ __('Talk to us') }}
+                    </a>
+                    <a href="https://wa.me/254700000000" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                        {{ __('WhatsApp') }}
+                    </a>
+                @endif
             </div>
         </div>
     </section>
@@ -258,9 +300,9 @@
     <section class="mt-12 rounded-2xl bg-zinc-900 p-8 text-white md:p-10" id="contact">
         <div class="grid gap-8 md:grid-cols-2 md:items-center">
             <div class="space-y-3">
-                <h2 class="text-2xl font-semibold tracking-tight font-serif">Get updates + new arrivals</h2>
+                <h2 class="text-2xl font-semibold tracking-tight font-serif">{{ $home['newsletter_title'] ?? 'Get updates + new arrivals' }}</h2>
                 <p class="text-sm text-white/80">
-                    Join the list for restocks, styling tips, and bridal offers.
+                    {{ $home['newsletter_body'] ?? 'Join the list for restocks, styling tips, and bridal offers.' }}
                 </p>
 
                 @if (session('subscribed'))

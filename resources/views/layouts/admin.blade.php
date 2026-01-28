@@ -58,6 +58,13 @@
                         <div class="space-y-2">
                             <div class="px-3 text-xs font-medium tracking-widest text-zinc-500">CONTENT MANAGEMENT</div>
                             <div class="space-y-1">
+                                <a href="{{ route('admin.homepage.edit') }}" class="{{ $navItem(route('admin.homepage.edit'), 'Homepage', request()->routeIs('admin.homepage.*')) }}">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-5 w-5 text-zinc-500 group-hover:text-zinc-900">
+                                        <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                    </svg>
+                                    <span>{{ __('Homepage') }}</span>
+                                </a>
+
                                 <a href="{{ route('admin.pages.index') }}" class="{{ $navItem(route('admin.pages.index'), 'Pages', request()->routeIs('admin.pages.*')) }}">
                                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-5 w-5 text-zinc-500 group-hover:text-zinc-900">
                                         <path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />

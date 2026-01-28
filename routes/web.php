@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\HomeContentController as AdminHomeContentController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -51,6 +52,9 @@ Route::prefix('admin')
     ->middleware('admin.auth')
     ->group(function () {
         Route::get('/', AdminDashboardController::class)->name('dashboard');
+
+        Route::get('homepage', [AdminHomeContentController::class, 'edit'])->name('homepage.edit');
+        Route::put('homepage', [AdminHomeContentController::class, 'update'])->name('homepage.update');
 
         Route::resource('categories', AdminCategoryController::class)->except(['show']);
         Route::resource('products', AdminProductController::class)->except(['show']);
