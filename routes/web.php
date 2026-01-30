@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HomeContentController as AdminHomeContentController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\HeroImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PageController;
@@ -15,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
+
+Route::get('/hero-image', HeroImageController::class)->name('hero.image');
 
 Route::view('/welcome', 'welcome')->name('welcome');
 

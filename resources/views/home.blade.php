@@ -8,7 +8,8 @@
 
     $heroImage = asset('images/hero-bridal.svg');
     if (! empty($home['hero_image_path'] ?? null) && Storage::disk('public')->exists($home['hero_image_path'])) {
-        $heroImage = asset('storage/'.$home['hero_image_path']);
+        $lastModified = Storage::disk('public')->lastModified($home['hero_image_path']) ?: now()->timestamp;
+        $heroImage = route('hero.image', ['v' => $lastModified]);
     }
 
     $linkResolver = function (?string $value, string $fallback) {
