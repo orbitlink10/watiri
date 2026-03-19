@@ -5,8 +5,8 @@
 @section('content')
     <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
         <div class="rounded-2xl bg-white p-6 watiri-ring">
-            @if ($product->image_url)
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="h-[420px] w-full rounded-xl object-cover watiri-ring" />
+            @if ($product->image_src)
+                <img src="{{ $product->image_src }}" alt="{{ $product->name }}" class="h-[420px] w-full rounded-xl object-cover watiri-ring" />
             @else
                 <div class="h-[420px] rounded-xl bg-gradient-to-br from-brand-50 via-white to-champagne-100 watiri-ring"></div>
             @endif
@@ -67,4 +67,3 @@
         </div>
     </div>
 @endsection
-

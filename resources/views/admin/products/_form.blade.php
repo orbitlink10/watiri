@@ -45,9 +45,14 @@
     </div>
 
     <div class="space-y-1">
-        <label class="text-sm font-medium text-zinc-900" for="image_url">Image URL (optional)</label>
-        <input id="image_url" name="image_url" value="{{ old('image_url', $product->image_url ?? '') }}" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40" />
-        @error('image_url') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
+        <label class="text-sm font-medium text-zinc-900" for="image">Product image (optional)</label>
+        <input id="image" name="image" type="file" accept="image/*" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40" />
+        @if ($product?->image_src)
+            <div class="space-y-2 pt-2">
+                <div class="text-xs text-zinc-500">Current image. Upload a new file to replace it.</div>
+                <img src="{{ $product->image_src }}" alt="{{ $product?->name ?? 'Current product image' }}" class="h-40 w-full max-w-sm rounded-xl object-cover watiri-ring" />
+            </div>
+        @endif
+        @error('image') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
     </div>
 </div>
-

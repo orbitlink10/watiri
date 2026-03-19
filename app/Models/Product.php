@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -37,5 +39,23 @@ class Product extends Model
     {
         return 'slug';
     }
-}
 
+    public function getImageSrcAttribute(): ?string
+    {
+        $image = $this->getRawOriginal('image_url');
+
+        if (! $image) {
+            return null;
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '//', 'data:'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, '/storage/')) {
+            return $image;
+        }
+
+        return Storage::disk('public')->url($image);
+    }
+}

@@ -9,7 +9,7 @@
             <a class="text-sm text-zinc-600 hover:text-zinc-900" href="{{ route('admin.products.index') }}">Back</a>
         </div>
 
-        <form class="mt-6 space-y-6 rounded-2xl bg-white p-6 watiri-ring" method="post" action="{{ route('admin.products.update', $product) }}">
+        <form class="mt-6 space-y-6 rounded-2xl bg-white p-6 watiri-ring" method="post" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             @include('admin.products._form')
@@ -17,4 +17,3 @@
         </form>
     </div>
 @endsection
-

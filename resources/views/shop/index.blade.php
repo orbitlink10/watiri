@@ -73,8 +73,8 @@
                                 @endif
                             </div>
 
-                            @if ($product->image_url)
-                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="mt-6 h-40 w-full rounded-xl object-cover watiri-ring" />
+                            @if ($product->image_src)
+                                <img src="{{ $product->image_src }}" alt="{{ $product->name }}" class="mt-6 h-40 w-full rounded-xl object-cover watiri-ring" />
                             @else
                                 <div class="mt-6 h-40 rounded-xl bg-gradient-to-br from-brand-50 via-white to-champagne-100 watiri-ring"></div>
                             @endif
@@ -105,4 +105,3 @@
         </div>
     </div>
 @endsection
-

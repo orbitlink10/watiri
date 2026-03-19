@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -55,11 +56,12 @@ class ProductController extends Controller
             'description' => ['nullable', 'string', 'max:5000'],
             'price' => ['required', 'integer', 'min:0', 'max:2000000'],
             'stock' => ['required', 'integer', 'min:0', 'max:100000'],
-            'image_url' => ['nullable', 'url', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:5120'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
         $slug = $this->uniqueSlug(Product::class, $validated['name']);
+        $imagePath = $request->file('image')?->store('products', 'public');
 
         Product::create([
             'category_id' => (int) $validated['category_id'],
@@ -68,7 +70,7 @@ class ProductController extends Controller
             'description' => $validated['description'] ?? null,
             'price' => (int) $validated['price'],
             'stock' => (int) $validated['stock'],
-            'image_url' => $validated['image_url'] ?? null,
+            'image_url' => $imagePath,
             'is_active' => (bool) ($validated['is_active'] ?? true),
         ]);
 
@@ -95,11 +97,17 @@ class ProductController extends Controller
             'description' => ['nullable', 'string', 'max:5000'],
             'price' => ['required', 'integer', 'min:0', 'max:2000000'],
             'stock' => ['required', 'integer', 'min:0', 'max:100000'],
-            'image_url' => ['nullable', 'url', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:5120'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
         $slug = $this->uniqueSlug(Product::class, $validated['name'], $product->id);
+        $imagePath = $product->getRawOriginal('image_url');
+
+        if ($request->hasFile('image')) {
+            $this->deleteStoredImage($imagePath);
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         $product->update([
             'category_id' => (int) $validated['category_id'],
@@ -108,7 +116,7 @@ class ProductController extends Controller
             'description' => $validated['description'] ?? null,
             'price' => (int) $validated['price'],
             'stock' => (int) $validated['stock'],
-            'image_url' => $validated['image_url'] ?? null,
+            'image_url' => $imagePath,
             'is_active' => (bool) ($validated['is_active'] ?? false),
         ]);
 
@@ -119,6 +127,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        $this->deleteStoredImage($product->getRawOriginal('image_url'));
         $product->delete();
 
         Cache::forget('home.featured_products');
@@ -142,5 +151,21 @@ class ProductController extends Controller
         }
 
         return $slug;
+    }
+
+    private function deleteStoredImage(?string $image): void
+    {
+        if (! $image || Str::startsWith($image, ['http://', 'https://', '//', 'data:'])) {
+            return;
+        }
+
+        $path = Str::of($image)
+            ->ltrim('/')
+            ->replaceStart('storage/', '')
+            ->toString();
+
+        if ($path !== '') {
+            Storage::disk('public')->delete($path);
+        }
     }
 }
