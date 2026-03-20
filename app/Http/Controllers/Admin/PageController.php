@@ -65,9 +65,11 @@ class PageController extends Controller
         ]);
     }
 
-    public function preview(Page $page)
+    public function preview(Request $request, Page $page)
     {
-        return redirect()->route('pages.preview', $page);
+        $request->session()->put("page_preview_ids.{$page->id}", true);
+
+        return redirect()->route('pages.show', $page);
     }
 
     public function update(Request $request, Page $page)
@@ -147,7 +149,6 @@ class PageController extends Controller
             'login',
             'logout',
             'pages',
-            'preview',
             'products',
             'shop',
             'storage',

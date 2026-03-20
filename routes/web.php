@@ -68,6 +68,5 @@ Route::prefix('admin')
         Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
     });
 
-Route::middleware('admin.auth')->get('/preview/{page:slug}', [PageController::class, 'preview'])->name('pages.preview');
 Route::get('/pages/{page:slug}', [PageController::class, 'legacyRedirect'])->name('pages.legacy');
 Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');

@@ -9,19 +9,12 @@ class PageController extends Controller
 {
     public function show(Request $request, Page $page)
     {
-        $isPreview = $request->boolean('preview') && $request->hasValidSignature();
+        $isPreview = $request->session()->get("page_preview_ids.{$page->id}") === true;
 
         if (! $page->is_published && ! $isPreview) {
             abort(404);
         }
 
-        return view('pages.show', [
-            'page' => $page,
-        ]);
-    }
-
-    public function preview(Page $page)
-    {
         return view('pages.show', [
             'page' => $page,
         ]);
