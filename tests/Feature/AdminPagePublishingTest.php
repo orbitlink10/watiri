@@ -76,9 +76,17 @@ class AdminPagePublishingTest extends TestCase
 
         $this->get(route('pages.show', $page))->assertNotFound();
 
-        $this
+        $response = $this
             ->withSession(['admin_logged_in' => true])
-            ->get(route('admin.pages.preview', $page))
+            ->get(route('admin.pages.preview', $page));
+
+        $previewUrl = $response->headers->get('Location');
+
+        $response->assertRedirect();
+        $this->assertStringContainsString('/kikuyu-ruracio-attire-styles', $previewUrl);
+
+        $this
+            ->get($previewUrl)
             ->assertOk()
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');

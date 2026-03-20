@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function show(Page $page)
+    public function show(Request $request, Page $page)
     {
-        if (! $page->is_published) {
+        $isPreview = $request->boolean('preview') && $request->hasValidSignature();
+
+        if (! $page->is_published && ! $isPreview) {
             abort(404);
         }
 

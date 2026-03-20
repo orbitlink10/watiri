@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class PageController extends Controller
@@ -67,9 +68,10 @@ class PageController extends Controller
 
     public function preview(Page $page)
     {
-        return view('pages.show', [
+        return redirect()->to(URL::temporarySignedRoute('pages.show', now()->addMinutes(30), [
             'page' => $page,
-        ]);
+            'preview' => 1,
+        ]));
     }
 
     public function update(Request $request, Page $page)
