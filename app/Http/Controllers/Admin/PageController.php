@@ -40,17 +40,17 @@ class PageController extends Controller
     {
         $validated = $this->validated($request);
 
-        $slug = $this->uniqueSlug($validated['slug'] ?: $validated['title']);
+        $slug = $this->uniqueSlug($validated['slug'] ?? $validated['title']);
 
         $page = Page::create([
             'type' => $validated['type'],
             'title' => $validated['title'],
             'slug' => $slug,
-            'meta_title' => $validated['meta_title'] ?: null,
-            'meta_description' => $validated['meta_description'] ?: null,
-            'image_alt_text' => $validated['image_alt_text'] ?: null,
-            'heading_2' => $validated['heading_2'] ?: null,
-            'content' => $validated['content'] ?: null,
+            'meta_title' => $validated['meta_title'] ?? null,
+            'meta_description' => $validated['meta_description'] ?? null,
+            'image_alt_text' => $validated['image_alt_text'] ?? null,
+            'heading_2' => $validated['heading_2'] ?? null,
+            'content' => $validated['content'] ?? null,
             'is_published' => (bool) $validated['is_published'],
             'published_at' => $validated['is_published'] ? now() : null,
         ]);
@@ -69,18 +69,18 @@ class PageController extends Controller
     {
         $validated = $this->validated($request);
 
-        $slug = $this->uniqueSlug($validated['slug'] ?: $validated['title'], $page->id);
+        $slug = $this->uniqueSlug($validated['slug'] ?? $validated['title'], $page->id);
         $isPublished = (bool) $validated['is_published'];
 
         $page->update([
             'type' => $validated['type'],
             'title' => $validated['title'],
             'slug' => $slug,
-            'meta_title' => $validated['meta_title'] ?: null,
-            'meta_description' => $validated['meta_description'] ?: null,
-            'image_alt_text' => $validated['image_alt_text'] ?: null,
-            'heading_2' => $validated['heading_2'] ?: null,
-            'content' => $validated['content'] ?: null,
+            'meta_title' => $validated['meta_title'] ?? null,
+            'meta_description' => $validated['meta_description'] ?? null,
+            'image_alt_text' => $validated['image_alt_text'] ?? null,
+            'heading_2' => $validated['heading_2'] ?? null,
+            'content' => $validated['content'] ?? null,
             'is_published' => $isPublished,
             'published_at' => $isPublished ? ($page->published_at ?: now()) : null,
         ]);
@@ -97,7 +97,7 @@ class PageController extends Controller
 
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'type' => ['required', 'in:page,post'],
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
@@ -108,6 +108,10 @@ class PageController extends Controller
             'content' => ['nullable', 'string', 'max:200000'],
             'is_published' => ['nullable', 'boolean'],
         ]);
+
+        $validated['is_published'] = $request->boolean('is_published');
+
+        return $validated;
     }
 
     private function uniqueSlug(string $value, ?int $ignoreId = null): string
@@ -128,4 +132,3 @@ class PageController extends Controller
         return $slug;
     }
 }
-
