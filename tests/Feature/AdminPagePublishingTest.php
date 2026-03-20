@@ -63,4 +63,24 @@ class AdminPagePublishingTest extends TestCase
         $this->assertFalse($page->is_published);
         $this->assertNull($page->published_at);
     }
+
+    public function test_admin_can_preview_an_unpublished_page_while_public_route_stays_hidden(): void
+    {
+        $page = Page::create([
+            'type' => 'page',
+            'title' => 'Kikuyu Ruracio Attire Styles',
+            'slug' => 'kikuyu-ruracio-attire-styles',
+            'content' => 'Draft copy.',
+            'is_published' => false,
+        ]);
+
+        $this->get(route('pages.show', $page))->assertNotFound();
+
+        $this
+            ->withSession(['admin_logged_in' => true])
+            ->get(route('admin.pages.preview', $page))
+            ->assertOk()
+            ->assertSee('Kikuyu Ruracio Attire Styles')
+            ->assertSee('Draft copy.');
+    }
 }

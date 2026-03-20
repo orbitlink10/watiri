@@ -65,6 +65,13 @@ class PageController extends Controller
         ]);
     }
 
+    public function preview(Page $page)
+    {
+        return view('pages.show', [
+            'page' => $page,
+        ]);
+    }
+
     public function update(Request $request, Page $page)
     {
         $validated = $this->validated($request);

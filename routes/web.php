@@ -61,6 +61,7 @@ Route::prefix('admin')
 
         Route::resource('categories', AdminCategoryController::class)->except(['show']);
         Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::get('pages/{page}/preview', [AdminPageController::class, 'preview'])->name('pages.preview');
         Route::resource('pages', AdminPageController::class)->except(['show']);
 
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');

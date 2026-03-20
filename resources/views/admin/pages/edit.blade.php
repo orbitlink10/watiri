@@ -8,7 +8,11 @@
             <div>
                 <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">Edit Page</h1>
                 <div class="mt-1 text-sm text-zinc-600">
-                    <a class="watiri-link" href="{{ route('pages.show', $page) }}" target="_blank">View: /pages/{{ $page->slug }}</a>
+                    @if ($page->is_published)
+                        <a class="watiri-link" href="{{ route('pages.show', $page) }}" target="_blank" rel="noreferrer">View live: /pages/{{ $page->slug }}</a>
+                    @else
+                        <a class="watiri-link" href="{{ route('admin.pages.preview', $page) }}" target="_blank" rel="noreferrer">Preview draft: /pages/{{ $page->slug }}</a>
+                    @endif
                 </div>
             </div>
             <a class="text-sm text-zinc-600 hover:text-zinc-900" href="{{ route('admin.pages.index') }}">Back</a>
@@ -36,4 +40,3 @@
         });
     </script>
 @endpush
-

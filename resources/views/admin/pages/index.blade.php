@@ -50,9 +50,15 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <a href="{{ route('pages.show', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200">
-                            View
-                        </a>
+                        @if ($page->is_published)
+                            <a href="{{ route('pages.show', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200" target="_blank" rel="noreferrer">
+                                View
+                            </a>
+                        @else
+                            <a href="{{ route('admin.pages.preview', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200" target="_blank" rel="noreferrer">
+                                Preview Draft
+                            </a>
+                        @endif
                         <a href="{{ route('admin.pages.edit', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200">
                             Edit
                         </a>
@@ -75,4 +81,3 @@
         {{ $pages->links() }}
     </div>
 @endsection
-
