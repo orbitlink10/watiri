@@ -46,7 +46,7 @@
                             @endif
                         </div>
                         <div class="text-sm text-zinc-500">
-                            /pages/{{ $page->slug }}
+                            /{{ $page->slug }}
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">

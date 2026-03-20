@@ -23,7 +23,6 @@ Route::view('/welcome', 'welcome')->name('welcome');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/products/{product:slug}', [ShopController::class, 'show'])->name('products.show');
-Route::get('/pages/{page:slug}', [PageController::class, 'show'])->name('pages.show');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product:slug}', [CartController::class, 'add'])->name('cart.add');
@@ -68,3 +67,6 @@ Route::prefix('admin')
         Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
     });
+
+Route::get('/pages/{page:slug}', [PageController::class, 'legacyRedirect'])->name('pages.legacy');
+Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');

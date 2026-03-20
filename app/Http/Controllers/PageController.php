@@ -16,5 +16,13 @@ class PageController extends Controller
             'page' => $page,
         ]);
     }
-}
 
+    public function legacyRedirect(Page $page)
+    {
+        if (! $page->is_published) {
+            abort(404);
+        }
+
+        return redirect()->route('pages.show', $page, 301);
+    }
+}

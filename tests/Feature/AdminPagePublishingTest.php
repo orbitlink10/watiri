@@ -83,4 +83,45 @@ class AdminPagePublishingTest extends TestCase
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');
     }
+
+    public function test_published_page_uses_root_slug_url_and_old_pages_url_redirects(): void
+    {
+        $page = Page::create([
+            'type' => 'page',
+            'title' => 'Bridal Styling Tips',
+            'slug' => 'bridal-styling-tips',
+            'content' => 'Published copy.',
+            'is_published' => true,
+            'published_at' => now(),
+        ]);
+
+        $this->assertSame(url('/bridal-styling-tips'), route('pages.show', $page));
+
+        $this->get('/bridal-styling-tips')
+            ->assertOk()
+            ->assertSee('Bridal Styling Tips');
+
+        $this->get('/pages/bridal-styling-tips')
+            ->assertRedirect('/bridal-styling-tips');
+    }
+
+    public function test_reserved_slug_is_shifted_to_avoid_conflicting_with_root_routes(): void
+    {
+        $response = $this
+            ->withSession(['admin_logged_in' => true])
+            ->post(route('admin.pages.store'), [
+                'type' => 'page',
+                'title' => 'Shop',
+                'slug' => 'shop',
+                'content' => 'Reserved slug copy.',
+                'is_published' => '1',
+            ]);
+
+        $page = Page::query()->firstOrFail();
+
+        $response->assertRedirect(route('admin.pages.edit', $page));
+        $this->assertSame('shop-2', $page->slug);
+        $this->get('/shop')->assertOk();
+        $this->get('/shop-2')->assertOk()->assertSee('Reserved slug copy.');
+    }
 }

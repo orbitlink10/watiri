@@ -41,7 +41,7 @@
             <label class="text-sm font-medium text-zinc-900" for="slug">Slug (optional)</label>
             <input id="slug" name="slug" value="{{ old('slug', $page->slug ?? '') }}" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40" />
             @error('slug') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
-            <div class="mt-1 text-xs text-zinc-500">URL will be <span class="font-mono">/pages/your-slug</span></div>
+            <div class="mt-1 text-xs text-zinc-500">URL will be <span class="font-mono">/your-slug</span></div>
         </div>
         <div class="space-y-1">
             <label class="text-sm font-medium text-zinc-900" for="type">Type</label>
@@ -66,4 +66,3 @@
         @error('is_published') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
     </div>
 </div>
-

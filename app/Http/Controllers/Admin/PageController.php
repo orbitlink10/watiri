@@ -127,7 +127,7 @@ class PageController extends Controller
         $slug = $base !== '' ? $base : Str::lower(Str::random(8));
         $counter = 2;
 
-        while (Page::query()
+        while ($this->slugIsReserved($slug) || Page::query()
             ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
             ->where('slug', $slug)
             ->exists()
@@ -137,5 +137,24 @@ class PageController extends Controller
         }
 
         return $slug;
+    }
+
+    private function slugIsReserved(string $slug): bool
+    {
+        return in_array($slug, [
+            'admin',
+            'cart',
+            'checkout',
+            'hero-image',
+            'login',
+            'logout',
+            'pages',
+            'products',
+            'shop',
+            'storage',
+            'subscribe',
+            'up',
+            'welcome',
+        ], true);
     }
 }
