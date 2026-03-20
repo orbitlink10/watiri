@@ -67,10 +67,11 @@ class PageController extends Controller
 
     public function preview(Request $request, Page $page)
     {
-        $request->session()->put("page_preview_ids.{$page->id}", true);
+        $page->forceFill([
+            'preview_expires_at' => now()->addMinutes(30),
+        ])->save();
 
-        return redirect()->route('pages.show', $page)
-            ->cookie('page_preview_'.$page->id, '1', 30);
+        return redirect()->route('pages.show', $page);
     }
 
     public function update(Request $request, Page $page)
@@ -91,6 +92,7 @@ class PageController extends Controller
             'content' => $validated['content'] ?? null,
             'is_published' => $isPublished,
             'published_at' => $isPublished ? ($page->published_at ?: now()) : null,
+            'preview_expires_at' => $isPublished ? null : $page->preview_expires_at,
         ]);
 
         return redirect()->route('admin.pages.index')->with('status', 'Page updated.');

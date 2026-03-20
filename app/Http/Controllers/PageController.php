@@ -12,14 +12,12 @@ class PageController extends Controller
         $isSignedPreview = $request->boolean('preview') && $request->hasValidSignature();
 
         if ($isSignedPreview) {
-            $request->session()->put("page_preview_ids.{$page->id}", true);
+            $this->grantPreviewAccess($page);
 
-            return redirect()->route('pages.show', $page)
-                ->cookie($this->previewCookieName($page), '1', 30);
+            return redirect()->route('pages.show', $page);
         }
 
-        $isPreview = $request->session()->get("page_preview_ids.{$page->id}") === true
-            || $request->cookie($this->previewCookieName($page)) === '1';
+        $isPreview = $page->preview_expires_at?->isFuture() === true;
 
         if (! $page->is_published && ! $isPreview) {
             abort(404);
@@ -30,17 +28,28 @@ class PageController extends Controller
         ]);
     }
 
-    public function legacyRedirect(Page $page)
+    public function legacyRedirect(Request $request, Page $page)
     {
-        if (! $page->is_published) {
+        $isSignedPreview = $request->boolean('preview') && $request->hasValidSignature();
+        $hasPreviewAccess = $page->preview_expires_at?->isFuture() === true;
+
+        if (! $page->is_published && ! $isSignedPreview && ! $hasPreviewAccess) {
             abort(404);
         }
 
-        return redirect()->route('pages.show', $page, 301);
+        $redirect = redirect()->route('pages.show', $page, 301);
+
+        if ($isSignedPreview) {
+            $this->grantPreviewAccess($page);
+        }
+
+        return $redirect;
     }
 
-    private function previewCookieName(Page $page): string
+    private function grantPreviewAccess(Page $page): void
     {
-        return 'page_preview_'.$page->id;
+        $page->forceFill([
+            'preview_expires_at' => now()->addMinutes(30),
+        ])->save();
     }
 }

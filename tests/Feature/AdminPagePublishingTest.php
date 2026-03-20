@@ -82,7 +82,6 @@ class AdminPagePublishingTest extends TestCase
             ->get(route('admin.pages.preview', $page));
 
         $response->assertRedirect(route('pages.show', $page));
-        $response->assertCookie('page_preview_'.$page->id);
 
         $this
             ->followingRedirects()
@@ -111,10 +110,57 @@ class AdminPagePublishingTest extends TestCase
         $response = $this->get($signedPreviewUrl);
 
         $response->assertRedirect(route('pages.show', $page));
-        $response->assertCookie('page_preview_'.$page->id);
+        $page->refresh();
+        $this->assertTrue($page->preview_expires_at?->isFuture() === true);
 
         $this->followingRedirects()
             ->get($signedPreviewUrl)
+            ->assertOk()
+            ->assertSee('Kikuyu Ruracio Attire Styles')
+            ->assertSee('Draft copy.');
+    }
+
+    public function test_legacy_pages_path_redirects_to_clean_url_when_preview_access_exists(): void
+    {
+        $page = Page::create([
+            'type' => 'page',
+            'title' => 'Kikuyu Ruracio Attire Styles',
+            'slug' => 'kikuyu-ruracio-attire-styles',
+            'content' => 'Draft copy.',
+            'is_published' => false,
+        ]);
+
+        $response = $this
+            ->withSession(['admin_logged_in' => true])
+            ->get(route('admin.pages.preview', $page));
+
+        $response->assertRedirect(route('pages.show', $page));
+
+        $response = $this
+            ->get('/pages/kikuyu-ruracio-attire-styles');
+
+        $response->assertRedirect(route('pages.show', $page));
+    }
+
+    public function test_clean_page_url_works_in_a_fresh_context_after_admin_preview(): void
+    {
+        $page = Page::create([
+            'type' => 'page',
+            'title' => 'Kikuyu Ruracio Attire Styles',
+            'slug' => 'kikuyu-ruracio-attire-styles',
+            'content' => 'Draft copy.',
+            'is_published' => false,
+        ]);
+
+        $this
+            ->withSession(['admin_logged_in' => true])
+            ->get(route('admin.pages.preview', $page))
+            ->assertRedirect(route('pages.show', $page));
+
+        $page->refresh();
+        $this->assertTrue($page->preview_expires_at?->isFuture() === true);
+
+        $this->get(route('pages.show', $page))
             ->assertOk()
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');

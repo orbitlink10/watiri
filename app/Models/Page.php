@@ -20,6 +20,7 @@ class Page extends Model
         'content',
         'is_published',
         'published_at',
+        'preview_expires_at',
     ];
 
     protected function casts(): array
@@ -27,6 +28,7 @@ class Page extends Model
         return [
             'is_published' => 'boolean',
             'published_at' => 'datetime',
+            'preview_expires_at' => 'datetime',
         ];
     }
 
@@ -35,4 +37,3 @@ class Page extends Model
         return 'slug';
     }
 }
-
