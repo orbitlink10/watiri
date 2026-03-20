@@ -82,11 +82,12 @@ class AdminPagePublishingTest extends TestCase
             ->get(route('admin.pages.preview', $page));
 
         $response->assertRedirect(route('pages.show', $page));
+        $response->assertCookie('page_preview_'.$page->id);
 
         $this
+            ->followingRedirects()
             ->withSession(['admin_logged_in' => true])
-            ->withSession(['page_preview_ids' => [$page->id => true]])
-            ->get(route('pages.show', $page))
+            ->get(route('admin.pages.preview', $page))
             ->assertOk()
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');
@@ -110,7 +111,10 @@ class AdminPagePublishingTest extends TestCase
         $response = $this->get($signedPreviewUrl);
 
         $response->assertRedirect(route('pages.show', $page));
-        $this->followRedirects($response)
+        $response->assertCookie('page_preview_'.$page->id);
+
+        $this->followingRedirects()
+            ->get($signedPreviewUrl)
             ->assertOk()
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');

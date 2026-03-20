@@ -69,7 +69,8 @@ class PageController extends Controller
     {
         $request->session()->put("page_preview_ids.{$page->id}", true);
 
-        return redirect()->route('pages.show', $page);
+        return redirect()->route('pages.show', $page)
+            ->cookie('page_preview_'.$page->id, '1', 30);
     }
 
     public function update(Request $request, Page $page)
