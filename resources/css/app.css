@@ -44,3 +44,99 @@
         @apply text-zinc-700 underline-offset-4 hover:text-zinc-900 hover:underline;
     }
 }
+
+@layer components {
+    .page-content {
+        @apply mx-auto max-w-3xl text-lg leading-8 text-zinc-700;
+    }
+
+    .page-content > :first-child {
+        margin-top: 0;
+    }
+
+    .page-content > :last-child {
+        margin-bottom: 0;
+    }
+
+    .page-content h2 {
+        @apply mt-12 text-3xl leading-tight font-semibold tracking-tight text-zinc-900 font-serif;
+    }
+
+    .page-content h3 {
+        @apply mt-10 text-2xl leading-tight font-semibold text-zinc-900 font-serif;
+    }
+
+    .page-content h4 {
+        @apply mt-8 text-xl leading-tight font-semibold text-zinc-900;
+    }
+
+    .page-content p {
+        @apply mt-5;
+    }
+
+    .page-content a {
+        @apply font-medium text-brand-700 underline decoration-brand-300 underline-offset-4 transition-colors hover:text-brand-900;
+    }
+
+    .page-content strong {
+        @apply font-semibold text-zinc-900;
+    }
+
+    .page-content em {
+        @apply italic text-zinc-800;
+    }
+
+    .page-content ul,
+    .page-content ol {
+        @apply mt-6 space-y-3 pl-6;
+    }
+
+    .page-content ul {
+        list-style-type: disc;
+    }
+
+    .page-content ol {
+        list-style-type: decimal;
+    }
+
+    .page-content li {
+        @apply pl-1;
+    }
+
+    .page-content blockquote {
+        @apply mt-8 rounded-r-2xl border-l-4 border-brand-300 bg-brand-50/80 px-6 py-5 italic text-zinc-700;
+    }
+
+    .page-content hr {
+        @apply mt-10 border-zinc-200;
+    }
+
+    .page-content img {
+        @apply mt-8 rounded-2xl shadow-sm ring-1 ring-zinc-900/10;
+    }
+
+    .page-content table {
+        @apply mt-8 w-full border-collapse overflow-hidden rounded-2xl text-left text-base leading-7;
+    }
+
+    .page-content thead {
+        @apply bg-zinc-50 text-zinc-900;
+    }
+
+    .page-content th,
+    .page-content td {
+        @apply border border-zinc-200 px-4 py-3 align-top;
+    }
+
+    .page-content code {
+        @apply rounded bg-zinc-100 px-1.5 py-0.5 text-sm text-zinc-900;
+    }
+
+    .page-content pre {
+        @apply mt-8 overflow-x-auto rounded-2xl bg-zinc-950 px-5 py-4 text-sm leading-7 text-zinc-100;
+    }
+
+    .page-content pre code {
+        @apply bg-transparent p-0 text-inherit;
+    }
+}
