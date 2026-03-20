@@ -9,6 +9,14 @@ class PageController extends Controller
 {
     public function show(Request $request, Page $page)
     {
+        $isSignedPreview = $request->boolean('preview') && $request->hasValidSignature();
+
+        if ($isSignedPreview) {
+            $request->session()->put("page_preview_ids.{$page->id}", true);
+
+            return redirect()->route('pages.show', $page);
+        }
+
         $isPreview = $request->session()->get("page_preview_ids.{$page->id}") === true;
 
         if (! $page->is_published && ! $isPreview) {

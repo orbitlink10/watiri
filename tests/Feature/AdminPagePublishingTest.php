@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Page;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class AdminPagePublishingTest extends TestCase
@@ -86,6 +87,30 @@ class AdminPagePublishingTest extends TestCase
             ->withSession(['admin_logged_in' => true])
             ->withSession(['page_preview_ids' => [$page->id => true]])
             ->get(route('pages.show', $page))
+            ->assertOk()
+            ->assertSee('Kikuyu Ruracio Attire Styles')
+            ->assertSee('Draft copy.');
+    }
+
+    public function test_legacy_signed_preview_url_redirects_to_clean_page_url(): void
+    {
+        $page = Page::create([
+            'type' => 'page',
+            'title' => 'Kikuyu Ruracio Attire Styles',
+            'slug' => 'kikuyu-ruracio-attire-styles',
+            'content' => 'Draft copy.',
+            'is_published' => false,
+        ]);
+
+        $signedPreviewUrl = URL::temporarySignedRoute('pages.show', now()->addMinutes(30), [
+            'page' => $page,
+            'preview' => 1,
+        ]);
+
+        $response = $this->get($signedPreviewUrl);
+
+        $response->assertRedirect(route('pages.show', $page));
+        $this->followRedirects($response)
             ->assertOk()
             ->assertSee('Kikuyu Ruracio Attire Styles')
             ->assertSee('Draft copy.');
