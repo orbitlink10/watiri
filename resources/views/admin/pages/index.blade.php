@@ -55,7 +55,7 @@
                                 View
                             </a>
                         @else
-                            <a href="{{ route('admin.pages.preview', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200" target="_blank" rel="noreferrer">
+                            <a href="{{ route('pages.preview', $page) }}" class="rounded-md bg-zinc-100 px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-200" target="_blank" rel="noreferrer">
                                 Preview Draft
                             </a>
                         @endif

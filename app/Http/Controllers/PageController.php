@@ -20,6 +20,13 @@ class PageController extends Controller
         ]);
     }
 
+    public function preview(Page $page)
+    {
+        return view('pages.show', [
+            'page' => $page,
+        ]);
+    }
+
     public function legacyRedirect(Page $page)
     {
         if (! $page->is_published) {

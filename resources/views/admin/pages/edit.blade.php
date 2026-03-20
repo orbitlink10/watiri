@@ -11,7 +11,7 @@
                     @if ($page->is_published)
                         <a class="watiri-link" href="{{ route('pages.show', $page) }}" target="_blank" rel="noreferrer">View live: /{{ $page->slug }}</a>
                     @else
-                        <a class="watiri-link" href="{{ route('admin.pages.preview', $page) }}" target="_blank" rel="noreferrer">Preview draft: /{{ $page->slug }}</a>
+                        <a class="watiri-link" href="{{ route('pages.preview', $page) }}" target="_blank" rel="noreferrer">Preview draft: /{{ $page->slug }}</a>
                     @endif
                 </div>
             </div>
