@@ -50,7 +50,7 @@ class AdminProductImageUploadTest extends TestCase
 
         $this->assertNotNull($product->getRawOriginal('image_url'));
         Storage::disk('public')->assertExists($product->getRawOriginal('image_url'));
-        $this->assertStringStartsWith('/storage/', $product->image_src);
+        $this->assertSame(route('products.image', ['product' => $product, 'v' => Storage::disk('public')->lastModified($product->getRawOriginal('image_url'))], false), $product->image_src);
     }
 
     public function test_admin_can_replace_an_uploaded_product_image(): void

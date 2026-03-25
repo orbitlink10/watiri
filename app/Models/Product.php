@@ -52,10 +52,37 @@ class Product extends Model
             return $image;
         }
 
-        if (Str::startsWith($image, '/storage/')) {
-            return $image;
+        $path = $this->stored_image_path;
+
+        if (! $path) {
+            return null;
         }
 
-        return Storage::disk('public')->url($image);
+        if (! Storage::disk('public')->exists($path)) {
+            return null;
+        }
+
+        $version = Storage::disk('public')->lastModified($path) ?: null;
+
+        return route('products.image', [
+            'product' => $this,
+            'v' => $version,
+        ], false);
+    }
+
+    public function getStoredImagePathAttribute(): ?string
+    {
+        $image = $this->getRawOriginal('image_url');
+
+        if (! $image || Str::startsWith($image, ['http://', 'https://', '//', 'data:'])) {
+            return null;
+        }
+
+        $path = Str::of($image)
+            ->ltrim('/')
+            ->replaceStart('storage/', '')
+            ->toString();
+
+        return $path !== '' ? $path : null;
     }
 }

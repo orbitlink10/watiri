@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HomeContentController as AdminHomeContentController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\HeroImageController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PageController;
@@ -22,6 +23,7 @@ Route::get('/hero-image', HeroImageController::class)->name('hero.image');
 Route::view('/welcome', 'welcome')->name('welcome');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/products/{product:slug}/image', ProductImageController::class)->name('products.image');
 Route::get('/products/{product:slug}', [ShopController::class, 'show'])->name('products.show');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

@@ -37,7 +37,7 @@
                 <div class="flex items-center justify-between">
                     <div class="text-sm font-semibold text-zinc-900">Hero image</div>
                     @if (! empty($homeContent?->hero_image_path))
-                        <a class="text-xs text-zinc-600 hover:text-zinc-900" href="{{ Storage::disk('public')->url($homeContent->hero_image_path) }}" target="_blank" rel="noreferrer">View current</a>
+                        <a class="text-xs text-zinc-600 hover:text-zinc-900" href="{{ route('hero.image') }}" target="_blank" rel="noreferrer">View current</a>
                     @endif
                 </div>
                 <label class="inline-flex items-center gap-3 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 cursor-pointer">
