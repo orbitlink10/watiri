@@ -17,8 +17,8 @@
         <header class="border-b border-zinc-200/70 bg-white/90 backdrop-blur">
             <div class="bg-brand-100 text-zinc-800">
                 <div class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-2 text-xs md:flex-row md:items-center md:justify-between">
-                    <a class="watiri-link" href="tel:+254700000000">
-                        Call/WhatsApp: <span class="font-semibold">+254 700 000 000</span>
+                    <a class="watiri-link" href="tel:+254707396751">
+                        Call/WhatsApp: <span class="font-semibold">+254 707 396751</span>
                     </a>
                     <div class="text-zinc-700">
                         We accept <span class="font-medium">M-Pesa</span>, <span class="font-medium">Visa</span>, <span class="font-medium">Mastercard</span> &amp; <span class="font-medium">PayPal</span>
@@ -165,7 +165,7 @@
                     <div class="font-medium tracking-wide text-zinc-900">Contact</div>
                     <div class="grid gap-2 text-zinc-600">
                         <a class="watiri-link" href="mailto:hello@watiridesigns.co.ke">hello@watiridesigns.co.ke</a>
-                        <a class="watiri-link" href="tel:+254700000000">+254 700 000 000</a>
+                        <a class="watiri-link" href="tel:+254707396751">+254 707 396751</a>
                         <span class="text-zinc-500">Nairobi, Kenya</span>
                     </div>
                 </div>

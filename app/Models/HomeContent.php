@@ -65,7 +65,7 @@ class HomeContent extends Model
             'consult_primary_label' => 'Talk to us',
             'consult_primary_link' => '#contact',
             'consult_secondary_label' => 'WhatsApp',
-            'consult_secondary_link' => 'https://wa.me/254700000000',
+            'consult_secondary_link' => 'https://wa.me/254707396751',
             'newsletter_title' => 'Get updates + new arrivals',
             'newsletter_body' => 'Join the list for restocks, styling tips, and bridal offers.',
             'hero_image_path' => null,

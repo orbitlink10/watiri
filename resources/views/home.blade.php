@@ -265,7 +265,7 @@
                     </a>
                 @endif
                 @if (! empty($home['consult_secondary_label']))
-                    <a href="{{ $linkResolver($home['consult_secondary_link'] ?? null, 'https://wa.me/254700000000') }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                    <a href="{{ $linkResolver($home['consult_secondary_link'] ?? null, 'https://wa.me/254707396751') }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
                         {{ $home['consult_secondary_label'] }}
                     </a>
                 @endif
@@ -273,7 +273,7 @@
                     <a href="#contact" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
                         {{ __('Talk to us') }}
                     </a>
-                    <a href="https://wa.me/254700000000" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                    <a href="https://wa.me/254707396751" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
                         {{ __('WhatsApp') }}
                     </a>
                 @endif
