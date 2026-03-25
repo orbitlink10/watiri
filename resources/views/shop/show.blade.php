@@ -30,9 +30,11 @@
                 </div>
 
                 @if ($product->description)
-                    <p class="mt-4 text-sm leading-relaxed text-zinc-700">
-                        {{ $product->description }}
-                    </p>
+                    <div class="mt-5 rounded-2xl bg-champagne-50/70 px-5 py-4 watiri-ring">
+                        <div class="product-description">
+                            {!! \App\Support\PageContentFormatter::format($product->description) !!}
+                        </div>
+                    </div>
                 @endif
 
                 <div class="mt-6 flex flex-wrap items-center gap-3">

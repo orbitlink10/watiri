@@ -19,7 +19,8 @@
 
     <div class="space-y-1">
         <label class="text-sm font-medium text-zinc-900" for="description">Description (optional)</label>
-        <textarea id="description" name="description" rows="4" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40">{{ old('description', $product->description ?? '') }}</textarea>
+        <textarea id="description" name="description" rows="8" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40">{{ old('description', $product->description ?? '') }}</textarea>
+        <div class="text-xs text-zinc-500">Use blank lines for sections. Start bullets with `-` or numbered items with `1.` to format the product page neatly.</div>
         @error('description') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
     </div>
 

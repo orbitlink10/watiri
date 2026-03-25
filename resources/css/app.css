@@ -139,4 +139,53 @@
     .page-content pre code {
         @apply bg-transparent p-0 text-inherit;
     }
+
+    .product-description {
+        @apply text-base leading-8 text-zinc-700;
+    }
+
+    .product-description > :first-child {
+        margin-top: 0;
+    }
+
+    .product-description > :last-child {
+        margin-bottom: 0;
+    }
+
+    .product-description h2 {
+        @apply mt-7 text-xl leading-tight font-semibold tracking-tight text-zinc-900 font-serif;
+    }
+
+    .product-description h3 {
+        @apply mt-6 text-lg leading-tight font-semibold text-zinc-900 font-serif;
+    }
+
+    .product-description p {
+        @apply mt-4;
+    }
+
+    .product-description strong {
+        @apply font-semibold text-zinc-900;
+    }
+
+    .product-description em {
+        @apply italic text-zinc-800;
+    }
+
+    .product-description ul,
+    .product-description ol {
+        @apply mt-4 space-y-2 pl-5;
+    }
+
+    .product-description ul {
+        list-style-type: disc;
+    }
+
+    .product-description ol {
+        list-style-type: decimal;
+    }
+
+    .product-description li {
+        @apply pl-1;
+    }
 }

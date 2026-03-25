@@ -89,7 +89,7 @@ class PageContentFormatter
 
             $flushList();
 
-            $previous = self::previousNonEmptyLine($lines, $index);
+            $previous = $index > 0 ? $lines[$index - 1] : null;
             $next = self::nextNonEmptyLine($lines, $index);
 
             if (self::shouldBeHeading($line, $previous, $next)) {
@@ -107,19 +107,6 @@ class PageContentFormatter
         return implode("\n", $html);
     }
 
-    private static function previousNonEmptyLine(array $lines, int $index): ?string
-    {
-        for ($i = $index - 1; $i >= 0; $i--) {
-            $line = trim($lines[$i]);
-
-            if ($line !== '') {
-                return $line;
-            }
-        }
-
-        return null;
-    }
-
     private static function nextNonEmptyLine(array $lines, int $index): ?string
     {
         for ($i = $index + 1, $count = count($lines); $i < $count; $i++) {
@@ -135,15 +122,15 @@ class PageContentFormatter
 
     private static function shouldBeHeading(string $line, ?string $previous, ?string $next): bool
     {
-        if ($previous !== null) {
-            return false;
-        }
-
         if ($next === null) {
             return false;
         }
 
         if (mb_strlen($line) > 90) {
+            return false;
+        }
+
+        if ($previous !== null && trim($previous) !== '') {
             return false;
         }
 
