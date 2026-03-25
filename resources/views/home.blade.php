@@ -225,7 +225,11 @@
                             </span>
                             <span class="text-xs text-zinc-500">{{ $product->stock > 0 ? 'In stock' : 'Preorder' }}</span>
                         </div>
-                        <div class="mt-6 h-28 rounded-xl bg-gradient-to-br from-brand-50 via-white to-champagne-100 watiri-ring"></div>
+                        @if ($product->image_src)
+                            <img src="{{ $product->image_src }}" alt="{{ $product->name }}" class="mt-6 h-40 w-full rounded-xl object-cover watiri-ring" />
+                        @else
+                            <div class="mt-6 h-40 rounded-xl bg-gradient-to-br from-brand-50 via-white to-champagne-100 watiri-ring"></div>
+                        @endif
                         <div class="mt-4 space-y-1">
                             <div class="text-sm font-semibold text-zinc-900 group-hover:underline">{{ $product->name }}</div>
                             <div class="text-sm text-zinc-700">KES {{ number_format($product->price) }}</div>
