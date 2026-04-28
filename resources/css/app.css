@@ -10,17 +10,17 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-serif: 'Cormorant Garamond', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 
-    --color-brand-50: #fcf6f7;
-    --color-brand-100: #f9eaed;
-    --color-brand-200: #f3d4db;
-    --color-brand-300: #eab1bf;
-    --color-brand-400: #de829a;
-    --color-brand-500: #cf5d7c;
-    --color-brand-600: #b84869;
-    --color-brand-700: #9a3b58;
-    --color-brand-800: #7f344a;
-    --color-brand-900: #6b2f42;
-    --color-brand-950: #3c1624;
+    --color-brand-50: #faf7ff;
+    --color-brand-100: #f2ebff;
+    --color-brand-200: #e4d7ff;
+    --color-brand-300: #d0b5ff;
+    --color-brand-400: #b381ff;
+    --color-brand-500: #9657f0;
+    --color-brand-600: #7f3dd1;
+    --color-brand-700: #692faa;
+    --color-brand-800: #572a88;
+    --color-brand-900: #46246b;
+    --color-brand-950: #2b123f;
 
     --color-champagne-50: #fbfaf7;
     --color-champagne-100: #f6f3ea;
@@ -37,11 +37,11 @@
 
 @layer utilities {
     .watiri-ring {
-        @apply ring-1 ring-zinc-900/10;
+        @apply ring-1 ring-brand-200/40;
     }
 
     .watiri-link {
-        @apply text-zinc-700 underline-offset-4 hover:text-zinc-900 hover:underline;
+        @apply text-zinc-700 underline-offset-4 transition-colors hover:text-brand-700 hover:underline;
     }
 }
 

@@ -5,7 +5,7 @@
 @section('content')
     <div class="mx-auto max-w-5xl">
         <article class="overflow-hidden rounded-[2rem] bg-white shadow-[0_24px_80px_-48px_rgba(24,24,27,0.45)] watiri-ring">
-            <div class="relative overflow-hidden border-b border-zinc-200/70 bg-[radial-gradient(circle_at_top_left,_rgba(243,212,219,0.6),_transparent_42%),linear-gradient(180deg,_rgba(255,255,255,0.98),_rgba(251,250,247,0.92))] px-6 py-10 sm:px-10 lg:px-14 lg:py-14">
+            <div class="relative overflow-hidden border-b border-zinc-200/70 bg-[radial-gradient(circle_at_top_left,_rgba(228,215,255,0.72),_transparent_42%),linear-gradient(180deg,_rgba(250,247,255,0.98),_rgba(251,250,247,0.92))] px-6 py-10 sm:px-10 lg:px-14 lg:py-14">
                 <div class="absolute right-0 top-0 h-32 w-32 -translate-y-8 translate-x-10 rounded-full bg-brand-100/70 blur-3xl"></div>
 
                 <div class="relative max-w-3xl">
