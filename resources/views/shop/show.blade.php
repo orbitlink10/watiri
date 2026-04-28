@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' — Watiri Designs')
+@section('title', $product->name . ' - Watiri Designs')
+
+@php
+    $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
+    $tillNumber = config('storefront.payment.till_number', '8541600');
+    $paymentPayee = config('storefront.payment.payee', 'Watiri Designs');
+@endphp
 
 @section('content')
     <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
@@ -59,11 +65,11 @@
             </div>
 
             <div class="rounded-2xl bg-white p-6 watiri-ring">
-                <div class="text-sm font-semibold text-zinc-900">Delivery</div>
+                <div class="text-sm font-semibold text-zinc-900">Delivery &amp; payment</div>
                 <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-700">
                     <li>Nairobi pickup available.</li>
                     <li>Nationwide delivery via courier.</li>
-                    <li>7-day returns on unused items.</li>
+                    <li>Pay via M-Pesa {{ $paymentMethod }} {{ $tillNumber }} ({{ $paymentPayee }}).</li>
                 </ul>
             </div>
         </div>

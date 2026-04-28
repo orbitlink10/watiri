@@ -1,12 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout — Watiri Designs')
+@section('title', 'Checkout - Watiri Designs')
+
+@php
+    $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
+    $tillNumber = config('storefront.payment.till_number', '8541600');
+    $paymentPayee = config('storefront.payment.payee', 'Watiri Designs');
+@endphp
 
 @section('content')
     <div class="mx-auto max-w-2xl">
         <div class="rounded-2xl bg-white p-6 watiri-ring">
             <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 font-serif">Checkout</h1>
-            <p class="mt-2 text-sm text-zinc-600">Enter your details and we’ll confirm your order on WhatsApp/phone.</p>
+            <p class="mt-2 text-sm text-zinc-600">Enter your details and we'll confirm your order on WhatsApp or phone.</p>
+            <div class="mt-4 rounded-xl bg-champagne-50/80 px-4 py-3 text-sm text-zinc-700 watiri-ring">
+                Main payment method: <span class="font-medium">M-Pesa {{ $paymentMethod }} {{ $tillNumber }}</span> for <span class="font-medium">{{ $paymentPayee }}</span>.
+            </div>
 
             <form class="mt-6 space-y-4" method="post" action="{{ route('checkout.store') }}">
                 @csrf
@@ -29,7 +38,7 @@
                             id="customer_phone"
                             name="customer_phone"
                             value="{{ old('customer_phone') }}"
-                            placeholder="+254…"
+                            placeholder="+254..."
                             class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40"
                         />
                         @error('customer_phone') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
@@ -54,7 +63,7 @@
                         id="delivery_address"
                         name="delivery_address"
                         value="{{ old('delivery_address') }}"
-                        placeholder="e.g. Nairobi, Westlands…"
+                        placeholder="e.g. Nairobi, Westlands..."
                         class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40"
                     />
                     @error('delivery_address') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
@@ -78,4 +87,3 @@
         </div>
     </div>
 @endsection
-

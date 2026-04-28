@@ -188,7 +188,7 @@
                 </div>
                 <div class="space-y-1">
                     <label class="text-sm text-zinc-700" for="consult_secondary_link">Secondary CTA link</label>
-                    <input id="consult_secondary_link" name="consult_secondary_link" value="{{ old('consult_secondary_link', $v['consult_secondary_link'] ?? '') }}" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40" placeholder="https://wa.me/254707396751" />
+                    <input id="consult_secondary_link" name="consult_secondary_link" value="{{ old('consult_secondary_link', $v['consult_secondary_link'] ?? '') }}" class="w-full rounded-md bg-white px-4 py-3 text-sm text-zinc-900 watiri-ring focus:outline-none focus:ring-2 focus:ring-brand-400/40" placeholder="https://wa.me/254113838291" />
                     @error('consult_secondary_link') <div class="text-xs text-red-600">{{ $message }}</div> @enderror
                 </div>
             </div>

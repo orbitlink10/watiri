@@ -40,6 +40,10 @@ class HomeContent extends Model
 
     public static function defaults(): array
     {
+        $whatsapp = config('storefront.contact.whatsapp', '254113838291');
+        $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
+        $tillNumber = config('storefront.payment.till_number', '8541600');
+
         return [
             'seo_title' => 'Watiri Designs — Bridal Accessories in Kenya',
             'seo_description' => 'From statement hair pieces and timeless veils to jewellery that photographs beautifully—Watiri Designs helps you complete your bridal look with confidence.',
@@ -54,7 +58,7 @@ class HomeContent extends Model
             'delivery_points' => [
                 'Nairobi pickup available',
                 'Nationwide delivery',
-                '7-day returns',
+                "Pay via {$paymentMethod} {$tillNumber}",
             ],
             'categories_title' => 'Shop by category',
             'categories_subtitle' => 'Curated pieces that complement your dress, venue, and hairstyle.',
@@ -65,7 +69,7 @@ class HomeContent extends Model
             'consult_primary_label' => 'Talk to us',
             'consult_primary_link' => '#contact',
             'consult_secondary_label' => 'WhatsApp',
-            'consult_secondary_link' => 'https://wa.me/254707396751',
+            'consult_secondary_link' => 'https://wa.me/' . $whatsapp,
             'newsletter_title' => 'Get updates + new arrivals',
             'newsletter_body' => 'Join the list for restocks, styling tips, and bridal offers.',
             'hero_image_path' => null,

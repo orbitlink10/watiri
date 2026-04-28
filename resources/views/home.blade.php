@@ -31,6 +31,10 @@
     $heroPrimaryLink = $linkResolver($home['hero_primary_link'] ?? null, route('shop.index'));
     $heroSecondaryLink = $linkResolver($home['hero_secondary_link'] ?? null, '#consult');
     $deliveryPoints = collect($home['delivery_points'] ?? [])->filter()->take(3);
+    $whatsappLink = 'https://wa.me/' . config('storefront.contact.whatsapp', '254113838291');
+    $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
+    $tillNumber = config('storefront.payment.till_number', '8541600');
+    $paymentPayee = config('storefront.payment.payee', 'Watiri Designs');
 @endphp
 
 @section('title', $home['seo_title'] ?? 'Watiri Designs - Bridal Accessories in Kenya')
@@ -265,7 +269,7 @@
                     </a>
                 @endif
                 @if (! empty($home['consult_secondary_label']))
-                    <a href="{{ $linkResolver($home['consult_secondary_link'] ?? null, 'https://wa.me/254707396751') }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                    <a href="{{ $linkResolver($home['consult_secondary_link'] ?? null, $whatsappLink) }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
                         {{ $home['consult_secondary_label'] }}
                     </a>
                 @endif
@@ -273,7 +277,7 @@
                     <a href="#contact" class="inline-flex items-center rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white hover:bg-zinc-800">
                         {{ __('Talk to us') }}
                     </a>
-                    <a href="https://wa.me/254707396751" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
+                    <a href="{{ $whatsappLink }}" class="inline-flex items-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-white hover:bg-brand-700">
                         {{ __('WhatsApp') }}
                     </a>
                 @endif
@@ -283,9 +287,9 @@
 
     <section class="mt-12 grid gap-4 lg:grid-cols-3" id="faq">
         <div class="rounded-2xl bg-white p-6 watiri-ring">
-            <div class="text-sm font-semibold text-zinc-900">Fast delivery</div>
+            <div class="text-sm font-semibold text-zinc-900">Delivery &amp; payment</div>
             <p class="mt-2 text-sm text-zinc-600">
-                Same-day Nairobi dispatch options and reliable nationwide couriers.
+                Nairobi pickup, nationwide delivery, and payment via {{ $paymentMethod }} {{ $tillNumber }} for {{ $paymentPayee }}.
             </p>
         </div>
         <div class="rounded-2xl bg-white p-6 watiri-ring">

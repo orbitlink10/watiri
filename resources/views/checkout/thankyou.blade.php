@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Order placed — Watiri Designs')
+@section('title', 'Order placed - Watiri Designs')
+
+@php
+    $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
+    $tillNumber = config('storefront.payment.till_number', '8541600');
+    $paymentPayee = config('storefront.payment.payee', 'Watiri Designs');
+@endphp
 
 @section('content')
     <div class="mx-auto max-w-2xl">
@@ -11,7 +17,7 @@
 
             <h1 class="mt-4 text-3xl font-semibold tracking-tight text-zinc-900 font-serif">Thank you!</h1>
             <p class="mt-2 text-sm text-zinc-700">
-                Your order number is <span class="font-semibold">{{ $order->order_number }}</span>. We’ll contact you to confirm delivery and payment.
+                Your order number is <span class="font-semibold">{{ $order->order_number }}</span>. We'll contact you to confirm delivery or pickup and payment via M-Pesa {{ $paymentMethod }} {{ $tillNumber }} ({{ $paymentPayee }}).
             </p>
 
             <div class="mt-6 rounded-xl bg-zinc-50 p-5 watiri-ring">
@@ -44,4 +50,3 @@
         </div>
     </div>
 @endsection
-
