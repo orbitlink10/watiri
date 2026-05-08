@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeContent;
+use App\Support\WhatsAppLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,7 +50,7 @@ class HomeContentController extends Controller
             'hero_image' => ['nullable', 'image', 'max:4096'],
         ]);
 
-        $homeContent = HomeContent::query()->first() ?? new HomeContent();
+        $homeContent = HomeContent::query()->first() ?? new HomeContent;
 
         $homeContent->fill([
             'seo_title' => $validated['seo_title'],
@@ -75,7 +76,7 @@ class HomeContentController extends Controller
             'consult_primary_label' => $validated['consult_primary_label'] ?? null,
             'consult_primary_link' => $validated['consult_primary_link'] ?? null,
             'consult_secondary_label' => $validated['consult_secondary_label'] ?? null,
-            'consult_secondary_link' => $validated['consult_secondary_link'] ?? null,
+            'consult_secondary_link' => WhatsAppLink::maybeNormalize($validated['consult_secondary_link'] ?? null),
             'newsletter_title' => $validated['newsletter_title'],
             'newsletter_body' => $validated['newsletter_body'] ?? null,
         ]);

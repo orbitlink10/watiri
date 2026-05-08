@@ -1,6 +1,7 @@
 ﻿@extends('layouts.app')
 
 @php
+    use App\Support\WhatsAppLink;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Str;
 
@@ -31,7 +32,7 @@
     $heroPrimaryLink = $linkResolver($home['hero_primary_link'] ?? null, route('shop.index'));
     $heroSecondaryLink = $linkResolver($home['hero_secondary_link'] ?? null, '#consult');
     $deliveryPoints = collect($home['delivery_points'] ?? [])->filter()->take(3);
-    $whatsappLink = 'https://wa.me/' . config('storefront.contact.whatsapp', '254113838291');
+    $whatsappLink = WhatsAppLink::fromPhone(config('storefront.contact.whatsapp', '254113838291')) ?? 'https://wa.me/254113838291';
     $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
     $tillNumber = config('storefront.payment.till_number', '8541600');
     $paymentPayee = config('storefront.payment.payee', 'Watiri Designs');

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\WhatsAppLink;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 class HomeContent extends Model
 {
@@ -40,7 +40,7 @@ class HomeContent extends Model
 
     public static function defaults(): array
     {
-        $whatsapp = config('storefront.contact.whatsapp', '254113838291');
+        $whatsapp = WhatsAppLink::fromPhone(config('storefront.contact.whatsapp', '254113838291')) ?? 'https://wa.me/254113838291';
         $paymentMethod = config('storefront.payment.method', 'Till Buy Goods');
         $tillNumber = config('storefront.payment.till_number', '8541600');
 
@@ -69,7 +69,7 @@ class HomeContent extends Model
             'consult_primary_label' => 'Talk to us',
             'consult_primary_link' => '#contact',
             'consult_secondary_label' => 'WhatsApp',
-            'consult_secondary_link' => 'https://wa.me/' . $whatsapp,
+            'consult_secondary_link' => $whatsapp,
             'newsletter_title' => 'Get updates + new arrivals',
             'newsletter_body' => 'Join the list for restocks, styling tips, and bridal offers.',
             'hero_image_path' => null,
@@ -85,6 +85,7 @@ class HomeContent extends Model
         }
 
         $payload = $record->only(array_keys($defaults));
+        $payload['consult_secondary_link'] = WhatsAppLink::maybeNormalize($payload['consult_secondary_link'] ?? null);
 
         return array_merge($defaults, $payload);
     }
